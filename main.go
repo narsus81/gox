@@ -1,9 +1,14 @@
-package main
+package gox
 
-import (
-	"fmt"
-)
+type Gox struct {
+	config Config
+}
 
-func main() {
-	fmt.Println("Hello, world!")
+type Config struct {
+	port int
+}
+
+func InitGox() *Gox {
+	c := Config{port: 888}
+	return &Gox{config: c}
 }
