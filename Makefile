@@ -16,10 +16,12 @@ MICRO              := $(word 3,$(VERSION_PARTS))
 
 NEXT_MAJOR         := $(shell echo $$(($(MAJOR)+1)))
 NEXT_MINOR         := $(shell echo $$(($(MINOR)+1)))
-NEXT_MICRO          = $(shell echo $$(($(MICRO)+$(COMMITS_SINCE_TAG))))
+#NEXT_MICRO          = $(shell echo $$(($(MICRO)+$(COMMITS_SINCE_TAG))))
+NEXT_MICRO         := $(shell echo $$(($(MICRO)+1)))
 
 ifeq ($(strip $(COMMITS_SINCE_TAG)),)
-CURRENT_VERSION_MICRO := $(MAJOR).$(MINOR).$(($(MICRO)+1))
+#CURRENT_VERSION_MICRO := $(MAJOR).$(MINOR).$(MICRO)
+CURRENT_VERSION_MICRO := $(MAJOR).$(MINOR).$(NEXT_MICRO)
 CURRENT_VERSION_MINOR := $(CURRENT_VERSION_MICRO)
 CURRENT_VERSION_MAJOR := $(CURRENT_VERSION_MICRO)
 else
