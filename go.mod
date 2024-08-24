@@ -1,3 +1,3 @@
-module github.com/narsus81/gox/0.0.5
+module github.com/narsus81/gox
 
 go 1.21
