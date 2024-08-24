@@ -18,7 +18,3 @@ func InitGox() *Gox {
 func (g *Gox) Version() string {
 	return g.config.version
 }
-
-func (g *Gox) SetPort(port int) {
-	g.config.port = port
-}
