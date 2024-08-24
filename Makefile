@@ -92,4 +92,3 @@ release:
 	git push origin $(BRANCH_NAME) $(CURRENT_TAG_MICRO)
 	curl https://sum.golang.org/lookup/github.com/narsus81/gox@v$(CURRENT_VERSION_MICRO)
 	curl https://proxy.golang.org/github.com/narsus81/gox/@v/v$(CURRENT_VERSION_MICRO).info
-	GOPROXY=https://proxy.golang.org GO111MODULE=on go get github.com/narsus81/gox@v$(CURRENT_VERSION_MICRO)
