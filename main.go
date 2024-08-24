@@ -11,7 +11,7 @@ type Config struct {
 }
 
 func InitGox() *Gox {
-	c := Config{port: 999, debug: false, version: "v0.0.13"}
+	c := Config{port: 666, debug: true, version: "v0.0.14"}
 	return &Gox{config: c}
 }
 
