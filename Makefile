@@ -88,3 +88,5 @@ release:
 	go mod tidy
 	git add .
 	git commit -m "Release $(CURRENT_VERSION_MICRO)"
+	git tag -a $(CURRENT_TAG_MICRO) -m $(TAG_MESSAGE)
+	git push origin $(BRANCH_NAME) $(CURRENT_TAG_MICRO)
