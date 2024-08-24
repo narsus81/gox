@@ -91,4 +91,4 @@ release:
 	git tag -a $(CURRENT_TAG_MICRO) -m $(TAG_MESSAGE)
 	git push origin $(BRANCH_NAME) $(CURRENT_TAG_MICRO)
 	curl https://sum.golang.org/lookup/github.com/narsus81/gox@v$(CURRENT_VERSION_MICRO)
-	curl https://proxy.golang.org/github.com/narsus81/gox/@v/$(CURRENT_VERSION_MICRO).info
+	curl https://proxy.golang.org/github.com/narsus81/gox/@v/v$(CURRENT_VERSION_MICRO).info
