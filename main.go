@@ -5,10 +5,11 @@ type Gox struct {
 }
 
 type Config struct {
-	port int
+	port  int
+	debug bool
 }
 
 func InitGox() *Gox {
-	c := Config{port: 888}
+	c := Config{port: 888, debug: true}
 	return &Gox{config: c}
 }
