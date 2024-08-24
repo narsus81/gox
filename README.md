@@ -1,3 +1,3 @@
 # gox
 
-Yet Another GoLang + HTMX library 
+Yet Another GoLang + HTMX library
