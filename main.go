@@ -11,10 +11,14 @@ type Config struct {
 }
 
 func InitGox() *Gox {
-	c := Config{port: 444, debug: true, version: "v0.0.18"}
+	c := Config{port: 555, debug: true, version: "v0.0.19"}
 	return &Gox{config: c}
 }
 
 func (g *Gox) Version() string {
 	return g.config.version
+}
+
+func (g *Gox) Port() int {
+	return g.config.port
 }

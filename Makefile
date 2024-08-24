@@ -19,7 +19,7 @@ NEXT_MINOR         := $(shell echo $$(($(MINOR)+1)))
 NEXT_MICRO          = $(shell echo $$(($(MICRO)+$(COMMITS_SINCE_TAG))))
 
 ifeq ($(strip $(COMMITS_SINCE_TAG)),)
-CURRENT_VERSION_MICRO := $(MAJOR).$(MINOR).$(MICRO)
+CURRENT_VERSION_MICRO := $(MAJOR).$(MINOR).($(MICRO)+1)
 CURRENT_VERSION_MINOR := $(CURRENT_VERSION_MICRO)
 CURRENT_VERSION_MAJOR := $(CURRENT_VERSION_MICRO)
 else
@@ -87,7 +87,7 @@ commit-message:
 release:
 	go mod tidy
 	git add .
-	git commit -m "Release $(CURRENT_VERSION_MICRO)"
+	git commit -m "Release v$(CURRENT_VERSION_MICRO)"
 	git tag -a $(CURRENT_TAG_MICRO) -m $(TAG_MESSAGE)
 	git push origin $(BRANCH_NAME) $(CURRENT_TAG_MICRO)
 	curl https://sum.golang.org/lookup/github.com/narsus81/gox@v$(CURRENT_VERSION_MICRO)
