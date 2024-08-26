@@ -19,7 +19,6 @@ NEXT_MICRO         := $(shell echo $$(($(MICRO)+1)))
 CURRENT_VERSION_MICRO := $(MAJOR).$(MINOR).$(MICRO)
 NEXT_VERSION_MICRO := $(MAJOR).$(MINOR).$(NEXT_MICRO)
 
-
 DATE                = $(shell date +'%d.%m.%Y')
 TIME                = $(shell date +'%H:%M:%S')
 COMMIT             := $(shell git rev-parse HEAD)
@@ -30,6 +29,7 @@ TAG_MESSAGE         = "$(TIME) $(DATE) $(AUTHOR) $(BRANCH_NAME)"
 COMMIT_MESSAGE     := $(shell git log --format=%B -n 1 $(COMMIT))
 
 CURRENT_TAG_MICRO  := "v$(CURRENT_VERSION_MICRO)"
+NEXT_TAG_MICRO  := "v$(NEXT_VERSION_MICRO)"
 
 # --- Version commands ---
 
@@ -43,9 +43,13 @@ next-version:
 
 # --- Tag commands ---
 
-.PHONY: tag-micro
-tag-micro:
+.PHONY: current-tag-micro
+current-tag-micro:
 	@echo "$(CURRENT_TAG_MICRO)"
+
+.PHONY: next-tag-micro
+next-tag-micro:
+	@echo "$(NEXT_TAG_MICRO)"
 
 # -- Meta info ---
 
@@ -62,7 +66,7 @@ release:
 	go mod tidy
 	git add .
 	git commit -m "Release v$(NEXT_VERSION_MICRO)"
-	git tag -a $(CURRENT_TAG_MICRO) -m $(TAG_MESSAGE)
-	git push origin $(BRANCH_NAME) $(CURRENT_TAG_MICRO)
+	git tag -a $(NEXT_TAG_MICRO) -m $(TAG_MESSAGE)
+	git push origin $(BRANCH_NAME) $(NEXT_TAG_MICRO)
 	curl https://sum.golang.org/lookup/github.com/narsus81/gox@v$(NEXT_VERSION_MICRO)
 	curl https://proxy.golang.org/github.com/narsus81/gox/@v/v$(NEXT_VERSION_MICRO).info
