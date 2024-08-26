@@ -15,10 +15,7 @@ type Config struct {
 }
 
 func InitGox() *Gox {
-	c := Config{debug: true, version: "v0.0.23"}
-	http.HandleFunc("/gox", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Here it is, %q!", r.URL.Path)
-	})
+	c := Config{debug: true, version: "v0.0.24"}
 	return &Gox{config: c}
 }
 
