@@ -1,3 +1,4 @@
+# -- Grab info ---
 
 MAKE               := make --no-print-directory
 
@@ -60,6 +61,8 @@ tag-message:
 .PHONY: commit-message
 commit-message:
 	@echo "$(COMMIT_MESSAGE)"
+
+# -- Operative commands ---
 
 .PHONY: release
 release:
