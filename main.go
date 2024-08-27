@@ -9,6 +9,7 @@ type Config struct {
 	HTMX        template.HTML
 	SSE         template.HTML
 	Autogen     template.HTMLAttr
+	Autogen2    template.HTMLAttr
 	defaultTmpl string
 	debug       bool
 }
@@ -27,14 +28,14 @@ type Route struct {
 
 func Init() *Gox {
 	c := Config{
-		debug:   true,
-		HTMX:    `<script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>`,
-		SSE:     `<script src="https://unpkg.com/htmx-ext-sse@2.2.2/sse.js" crossorigin="anonymous"></script>`,
-		Autogen: `hx-ext="sse" sse-connect="/sse" sse-swap="message"`,
-		//Autogen:     `hx-ext="sse" sse-connect="/sse"`,
+		debug:       true,
+		HTMX:        `<script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>`,
+		SSE:         `<script src="https://unpkg.com/htmx-ext-sse@2.2.2/sse.js" crossorigin="anonymous"></script>`,
+		Autogen:     `hx-ext="sse" sse-connect="/sse" sse-swap="First"`,
+		Autogen2:    `hx-ext="sse" sse-connect="/sse2" sse-swap="Second"`,
 		defaultTmpl: "templates/default.tmpl",
 	}
-	g := Gox{version: "v0.1.2", config: c, mux: http.NewServeMux(), patterns: make(map[string]Route)}
+	g := Gox{version: "v0.1.3", config: c, mux: http.NewServeMux(), patterns: make(map[string]Route)}
 	g.loadChain()
 
 	g.HandleFunc("root", "/{$}", func(w http.ResponseWriter, r *http.Request) {})
