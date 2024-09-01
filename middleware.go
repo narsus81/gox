@@ -4,25 +4,23 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+
+	m "github.com/narsus81/gox/internal/model"
 )
 
-type Middleware func(http.Handler) http.Handler
-
-var chain []Middleware
-
 func (g *Gox) loadChain() {
-	chain = append(chain, g.basicMiddleware)
-	chain = append(chain, g.rootMiddleware)
+	g.Chain = append(g.Chain, g.basicMiddleware)
+	g.Chain = append(g.Chain, g.rootMiddleware)
 }
 
-func chainingMiddleware(h http.Handler, m ...Middleware) http.Handler {
-	if len(m) < 1 {
+func chainingMiddleware(h http.Handler, mdw ...m.Middleware) http.Handler {
+	if len(mdw) < 1 {
 		return h
 	}
 
 	wrappedHandler := h
-	for i := len(m) - 1; i >= 0; i-- {
-		wrappedHandler = m[i](wrappedHandler)
+	for i := len(mdw) - 1; i >= 0; i-- {
+		wrappedHandler = mdw[i](wrappedHandler)
 	}
 
 	return wrappedHandler
@@ -41,7 +39,7 @@ func (g *Gox) rootMiddleware(next http.Handler) http.Handler {
 		route := g.patterns[r.Pattern]
 		if route.Name == "root" {
 			fmt.Println("Root middleware, the Pattern is: ", r.Pattern, " and the Route is: ", route.Name)
-			templ := template.Must(template.ParseFiles(g.config.defaultTmpl))
+			templ := template.Must(template.ParseFiles(g.config.DefaultTmpl))
 			templ.Execute(w, g.config)
 		}
 		next.ServeHTTP(w, r)

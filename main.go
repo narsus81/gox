@@ -1,56 +1,32 @@
 package gox
 
 import (
-	"html/template"
 	"net/http"
-)
 
-type Config struct {
-	HTMX        template.HTML
-	SSE         template.HTML
-	Autogen     template.HTMLAttr
-	Autogen2    template.HTMLAttr
-	defaultTmpl string
-	debug       bool
-}
+	m "github.com/narsus81/gox/internal/model"
+)
 
 type Gox struct {
 	version  string
-	config   Config
+	config   m.Config
 	mux      *http.ServeMux
-	patterns map[string]Route
-}
-
-type Route struct {
-	Name    string
-	Handler func(http.ResponseWriter, *http.Request)
+	patterns map[string]m.Route
+	Chain    []m.Middleware
 }
 
 func Init() *Gox {
-	c := Config{
-		debug:       true,
+	c := m.Config{
+		Debug:       true,
 		HTMX:        `<script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>`,
 		SSE:         `<script src="https://unpkg.com/htmx-ext-sse@2.2.2/sse.js" crossorigin="anonymous"></script>`,
 		Autogen:     `hx-ext="sse" sse-connect="/sse" sse-swap="First"`,
 		Autogen2:    `hx-ext="sse" sse-connect="/sse2" sse-swap="Second"`,
-		defaultTmpl: "templates/default.tmpl",
+		DefaultTmpl: "templates/default.tmpl",
 	}
-	g := Gox{version: "v0.1.3", config: c, mux: http.NewServeMux(), patterns: make(map[string]Route)}
+	g := Gox{version: "v0.1.3", config: c, mux: http.NewServeMux(), patterns: make(map[string]m.Route)}
 	g.loadChain()
 
 	g.HandleFunc("root", "/{$}", func(w http.ResponseWriter, r *http.Request) {})
 
 	return &g
-}
-
-func (g *Gox) HandleFunc(name string, pattern string, handler func(http.ResponseWriter, *http.Request)) {
-	// Add the route to the patterns map
-	r := Route{Name: name, Handler: handler}
-	g.patterns[pattern] = r
-	// Wrap the handler with the default middleware
-	g.mux.Handle(pattern, chainingMiddleware(http.HandlerFunc(handler), chain...))
-}
-
-func (g *Gox) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	g.mux.ServeHTTP(w, r)
 }
