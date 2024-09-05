@@ -24,7 +24,7 @@ func Init() *Gox {
 		Autogen2:    `hx-ext="sse" sse-connect="/sse2" sse-swap="Second"`,
 		DefaultTmpl: "templates/default.tmpl",
 	}
-	g := Gox{version: "v0.1.5", config: c, mux: http.NewServeMux(), patterns: make(map[string]m.Route)}
+	g := Gox{version: "v0.1.6", config: c, mux: http.NewServeMux(), patterns: make(map[string]m.Route)}
 	g.loadChain()
 
 	g.HandleFunc("root", "/{$}", func(w http.ResponseWriter, r *http.Request) {})
