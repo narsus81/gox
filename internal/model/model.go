@@ -12,6 +12,7 @@ type Config struct {
 	Autogen2    template.HTMLAttr
 	DefaultTmpl string
 	Debug       bool
+	Daytona     bool
 }
 
 type Route struct {
